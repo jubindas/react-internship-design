@@ -1,35 +1,60 @@
 import React from 'react';
 import { useTable } from 'react-table';
-import data from '../data/dummyData';
+import data from '../data/dummyData'; // Make sure this is your data file
 
 const Table = () => {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Submitter',
-        accessor: 'submitter',
-      },
-      {
-        Header: 'Status',
-        accessor: 'status',
-      },
-      {
-        Header: 'Submitted',
-        accessor: 'submitted',
+        Header: '#',
+        accessor: (_, index) => index + 1,
+        id: 'rowNumber',
+        Cell: ({ value }) => (
+          <div className="w-8 h-full flex items-center justify-center text-gray-500 text-sm font-normal">
+            {value}
+          </div>
+        ),
       },
       {
         Header: 'Job Request',
         accessor: 'jobRequest',
       },
       {
+        Header: 'Submitted',
+        accessor: 'submitted',
+      },
+      {
+        Header: 'Status',
+        accessor: 'status',
+        Cell: ({ value }) => {
+          const statusMap = {
+            'In-process': 'bg-yellow-100 text-yellow-800',
+            'Need to start': 'bg-blue-100 text-blue-800',
+            Complete: 'bg-green-100 text-green-800',
+            Blocked: 'bg-red-100 text-red-800',
+          };
+          return (
+            <span
+              className={`px-3 py-1 rounded-full text-xs font-medium ${statusMap[value] || 'bg-gray-100 text-gray-800'}`}
+            >
+              {value}
+            </span>
+          );
+        },
+      },
+      {
+        Header: 'Submitter',
+        accessor: 'submitter',
+      },
+      {
         Header: 'URL',
         accessor: 'url',
-        Cell: ({ value }: any) => (
+        Cell: ({ value }) => (
           <a
             href={`https://${value}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 underline"
+            className="text-blue-600 underline text-xs"
           >
             {value}
           </a>
@@ -42,6 +67,14 @@ const Table = () => {
       {
         Header: 'Priority',
         accessor: 'priority',
+        Cell: ({ value }) => {
+          const priorityMap = {
+            High: 'text-red-600 font-semibold',
+            Medium: 'text-yellow-600 font-semibold',
+            Low: 'text-blue-600 font-semibold',
+          };
+          return <span className={`${priorityMap[value] || ''}`}>{value}</span>;
+        },
       },
       {
         Header: 'Due Date',
@@ -50,6 +83,7 @@ const Table = () => {
       {
         Header: 'Est. Value',
         accessor: 'value',
+        Cell: ({ value }) => <span>{value}</span>,
       },
     ],
     [],
@@ -61,43 +95,38 @@ const Table = () => {
   });
 
   return (
-    <div className="overflow-x-auto">
-      <table {...getTableProps()} className="min-w-full bg-white rounded shadow-md">
+    <div className="overflow-x-auto p-6 bg-white rounded-lg shadow border border-gray-200">
+      <table {...getTableProps()} className="min-w-full text-sm border-separate border-spacing-0">
         <thead>
-          {headerGroups.map((headerGroup) => {
-            const { key: groupKey, ...groupProps } = headerGroup.getHeaderGroupProps();
-            return (
-              <tr key={groupKey} {...groupProps} className="bg-gray-200">
-                {headerGroup.headers.map((column) => {
-                  const { key: colKey, ...colProps } = column.getHeaderProps();
-                  return (
-                    <th
-                      key={colKey}
-                      {...colProps}
-                      className="p-3 text-left font-semibold text-sm text-gray-700"
-                    >
-                      {column.render('Header')}
-                    </th>
-                  );
-                })}
-              </tr>
-            );
-          })}
+          {headerGroups.map((headerGroup) => (
+            <tr
+              {...headerGroup.getHeaderGroupProps()}
+              className="bg-gray-100 text-gray-700 text-xs uppercase"
+            >
+              {headerGroup.headers.map((column) => (
+                <th
+                  {...column.getHeaderProps()}
+                  className={`${column.id === 'rowNumber' ? 'w-8 text-center' : ''} px-4 py-3 font-semibold text-left border-b border-gray-200`}
+                >
+                  {column.render('Header')}
+                </th>
+              ))}
+            </tr>
+          ))}
         </thead>
-        <tbody {...getTableBodyProps()}>
+        <tbody {...getTableBodyProps()} className="text-gray-900">
           {rows.map((row) => {
             prepareRow(row);
-            const { key: rowKey, ...rowProps } = row.getRowProps();
             return (
-              <tr key={rowKey} {...rowProps} className="border-t hover:bg-gray-50">
-                {row.cells.map((cell) => {
-                  const { key: cellKey, ...cellProps } = cell.getCellProps();
-                  return (
-                    <td key={cellKey} {...cellProps} className="p-3 text-sm text-gray-800">
-                      {cell.render('Cell')}
-                    </td>
-                  );
-                })}
+              <tr {...row.getRowProps()} className="border-b border-gray-100 hover:bg-gray-50">
+                {row.cells.map((cell) => (
+                  <td
+                    {...cell.getCellProps()}
+                    className={`${cell.column.id === 'rowNumber' ? 'w-8 text-center' : ''} px-4 py-3 align-middle border-b border-gray-100 whitespace-nowrap`}
+                  >
+                    {cell.render('Cell')}
+                  </td>
+                ))}
               </tr>
             );
           })}

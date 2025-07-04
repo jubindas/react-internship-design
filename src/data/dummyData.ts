@@ -8,7 +8,7 @@ const data = [
     assigned: 'Sophie Choudhury',
     priority: 'Medium',
     dueDate: '20-11-2024',
-    value: '6,200,000 ₹',
+    value: 6200000,
   },
   {
     submitter: 'Irfan Khan',
@@ -19,7 +19,7 @@ const data = [
     assigned: 'Tejas Pandey',
     priority: 'High',
     dueDate: '30-10-2024',
-    value: '3,500,000 ₹',
+    value: 3500000,
   },
   {
     submitter: 'Mark Johnson',
@@ -30,7 +30,7 @@ const data = [
     assigned: 'Rachel Lee',
     priority: 'Medium',
     dueDate: '10-12-2024',
-    value: '4,750,000 ₹',
+    value: 4750000,
   },
   {
     submitter: 'Emily Green',
@@ -41,7 +41,7 @@ const data = [
     assigned: 'Tom Wright',
     priority: 'Low',
     dueDate: '15-01-2025',
-    value: '5,900,000 ₹',
+    value: 5900000,
   },
   {
     submitter: 'Jessica Brown',
@@ -52,7 +52,7 @@ const data = [
     assigned: 'Kevin Smith',
     priority: 'Low',
     dueDate: '30-01-2025',
-    value: '2,800,000 ₹',
+    value: 2800000,
   },
 ];
 
