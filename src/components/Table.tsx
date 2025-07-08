@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import dummyData from '../data/dummyData'; // Your dummy data file
+import { FiLink, FiRefreshCw } from 'react-icons/fi';
+import dummyData from '../data/dummyData'; // Adjust path if needed
 
 const SheetTable = () => {
   const headers = [
@@ -48,15 +49,41 @@ const SheetTable = () => {
   };
 
   return (
-    <div className="overflow-auto border border-gray-200 rounded bg-white max-h-[calc(100vh-112px)]">
+    <div className="overflow-auto border border-gray-200 rounded bg-white">
+      {/* Top Section Bar */}
+      <div className="flex items-center px-4 py-2 bg-gray-100 border-b border-gray-300 text-sm">
+        <FiLink size={14} className="text-blue-500 mr-1" />
+        <span className="font-medium text-gray-700">Q3 Financial Overview</span>
+        <FiRefreshCw size={12} className="text-orange-500 ml-2 animate-spin-slow" />
+      </div>
+
+      {/* Colored Section Row */}
+      <div className="flex border-b border-gray-300 text-xs font-medium">
+        <div className="w-[32px] h-[32px]"></div> {/* Empty for # */}
+        <div className="flex-1 bg-white h-[32px]"></div>{' '}
+        {/* For first columns: Job Request, Submitted, Status, Submitter, URL */}
+        <div className="bg-[#d8ede1] text-gray-700 w-[160px] h-[32px] flex items-center justify-center border-l border-gray-300">
+          ABC
+        </div>
+        <div className="bg-[#e6e1f8] text-gray-700 w-[160px] h-[32px] flex items-center justify-center border-l border-gray-300">
+          Answer a question
+        </div>
+        <div className="bg-[#fbe6dd] text-gray-700 w-[160px] h-[32px] flex items-center justify-center border-l border-gray-300">
+          Extract
+        </div>
+        <div className="flex-1 bg-white h-[32px] border-l border-gray-300"></div>{' '}
+        {/* Fill remaining space if needed */}
+      </div>
+
+      {/* Table */}
       <table className="border-collapse table-fixed w-full text-sm">
         <thead>
           <tr className="bg-gray-100 border-b border-gray-300 text-xs uppercase text-gray-600">
             {headers.map((header, idx) => (
               <th
                 key={idx}
-                className={`border-r border-gray-300 font-semibold text-center px-2 ${
-                  header === '#' ? 'w-[40px] h-[40px]' : 'w-[160px] h-[40px]'
+                className={`border-r border-gray-300 font-semibold text-center ${
+                  header === '#' ? 'w-[32px] h-[32px]' : 'w-[160px] h-[40px]'
                 }`}
               >
                 {header}
@@ -70,14 +97,15 @@ const SheetTable = () => {
             <tr
               key={rowIndex}
               className="hover:bg-gray-50 border-b border-gray-200"
-              style={{ height: '40px' }} // Row height fixed
+              style={{ height: '40px' }}
             >
-              {/* Row Number */}
-              <td className="border-r border-gray-200 w-[40px] h-[40px] text-center text-xs text-gray-400 font-medium align-middle">
+              <td
+                className="border-r border-gray-200 w-[32px] h-[32px] text-center text-xs text-gray-400 font-medium align-middle"
+                style={{ lineHeight: '32px' }}
+              >
                 {rowIndex + 1}
               </td>
 
-              {/* Data Cells */}
               {Object.entries(row).map(([key, value], colIndex) => (
                 <td
                   key={colIndex}
