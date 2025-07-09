@@ -1,39 +1,9 @@
 import React, { useState } from 'react';
-import { FiLink, FiRefreshCw } from 'react-icons/fi';
-import dummyData from '../data/dummyData'; // Adjust path if needed
+import { FiLink, FiRefreshCw, FiPlus } from 'react-icons/fi';
+import dummyData from '../data/dummyData';
 
 const SheetTable = () => {
-  const headers = [
-    '#',
-    'Job Request',
-    'Submitted',
-    'Status',
-    'Submitter',
-    'URL',
-    'Assigned',
-    'Priority',
-    'Due Date',
-    'Est. Value',
-  ];
-
-  const [tableData, setTableData] = useState(dummyData);
-  const [editingCell, setEditingCell] = useState({ row: null, col: null });
-
-  const handleCellClick = (rowIndex, colKey) => {
-    setEditingCell({ row: rowIndex, col: colKey });
-  };
-
-  const handleInputChange = (e, rowIndex, colKey) => {
-    const updated = [...tableData];
-    updated[rowIndex][colKey] = e.target.value;
-    setTableData(updated);
-  };
-
-  const handleBlur = () => setEditingCell({ row: null, col: null });
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') handleBlur();
-  };
+  const [tableData] = useState(dummyData);
 
   const statusClasses = {
     'In-process': 'bg-yellow-100 text-yellow-800',
@@ -49,103 +19,74 @@ const SheetTable = () => {
   };
 
   return (
-    <div className="overflow-auto border border-gray-200 rounded bg-white">
-      {/* Top Section Bar */}
-      <div className="flex items-center px-4 py-2 bg-gray-100 border-b border-gray-300 text-sm">
-        <FiLink size={14} className="text-blue-500 mr-1" />
-        <span className="font-medium text-gray-700">Q3 Financial Overview</span>
-        <FiRefreshCw size={12} className="text-orange-500 ml-2 animate-spin-slow" />
-      </div>
-
-      {/* Colored Section Row */}
-      <div className="flex border-b border-gray-300 text-xs font-medium">
-        <div className="w-[32px] h-[32px]"></div> {/* Empty for # */}
-        <div className="flex-1 bg-white h-[32px]"></div>{' '}
-        {/* For first columns: Job Request, Submitted, Status, Submitter, URL */}
-        <div className="bg-[#d8ede1] text-gray-700 w-[160px] h-[32px] flex items-center justify-center border-l border-gray-300">
-          ABC
-        </div>
-        <div className="bg-[#e6e1f8] text-gray-700 w-[160px] h-[32px] flex items-center justify-center border-l border-gray-300">
-          Answer a question
-        </div>
-        <div className="bg-[#fbe6dd] text-gray-700 w-[160px] h-[32px] flex items-center justify-center border-l border-gray-300">
-          Extract
-        </div>
-        <div className="flex-1 bg-white h-[32px] border-l border-gray-300"></div>{' '}
-        {/* Fill remaining space if needed */}
-      </div>
-
-      {/* Table */}
-      <table className="border-collapse table-fixed w-full text-sm">
+    <div className="overflow-auto border border-gray-300 rounded-md bg-white text-xs">
+      <table className="table-fixed w-full border-collapse text-[11px]">
+        {/* ✅ Top Group Header */}
         <thead>
-          <tr className="bg-gray-100 border-b border-gray-300 text-xs uppercase text-gray-600">
-            {headers.map((header, idx) => (
-              <th
-                key={idx}
-                className={`border-r border-gray-300 font-semibold text-center ${
-                  header === '#' ? 'w-[32px] h-[32px]' : 'w-[160px] h-[40px]'
-                }`}
-              >
-                {header}
-              </th>
-            ))}
+          <tr className="border-b border-gray-300 text-gray-700 font-medium text-xs h-[32px]">
+            <th className="w-[32px] border-r border-gray-300"></th> {/* # */}
+            <th colSpan="4" className="bg-[#f6f6f6] border-r border-gray-300 px-3 py-1.5 text-left">
+              <div className="flex items-center">
+                <FiLink size={14} className="text-blue-500 mr-1" />
+                <span>Q3 Financial Overview</span>
+                <FiRefreshCw size={12} className="text-orange-500 ml-2 animate-spin-slow" />
+              </div>
+            </th>
+            <th className="w-[160px] border-r border-gray-300 bg-white"></th> {/* Empty URL */}
+            <th className="w-[160px] border-r border-gray-300 bg-[#d8ede1] text-center">
+              ABC
+            </th>{' '}
+            {/* Assigned */}
+            <th colSpan="2" className="border-r border-gray-300 bg-[#e6e1f8] text-center">
+              Answer a question
+            </th>{' '}
+            {/* Priority + Due Date */}
+            <th className="w-[160px] border-r border-gray-300 bg-[#fbe6dd] text-center">
+              Extract
+            </th>{' '}
+            {/* Est. Value */}
+            <th className="w-[40px] border-r border-gray-300 bg-white text-center">
+              <FiPlus size={14} className="text-gray-400" />
+            </th>{' '}
+            {/* Plus icon */}
+          </tr>
+
+          {/* ✅ Second Row: Column Headers */}
+          <tr className="bg-gray-100 border-b border-gray-300 uppercase text-gray-600 tracking-wide">
+            <th className="w-[32px] h-[40px] border-r border-gray-300 text-center">#</th>
+            <th className="w-[160px] h-[40px] border-r border-gray-300 text-center">Job Request</th>
+            <th className="w-[160px] h-[40px] border-r border-gray-300 text-center">Submitted</th>
+            <th className="w-[160px] h-[40px] border-r border-gray-300 text-center">Status</th>
+            <th className="w-[160px] h-[40px] border-r border-gray-300 text-center">Submitter</th>
+            <th className="w-[160px] h-[40px] border-r border-gray-300 text-center">URL</th>
+            <th className="w-[160px] h-[40px] border-r border-gray-300 text-center">Assigned</th>
+            <th className="w-[160px] h-[40px] border-r border-gray-300 text-center">Priority</th>
+            <th className="w-[160px] h-[40px] border-r border-gray-300 text-center">Due Date</th>
+            <th className="w-[160px] h-[40px] border-r border-gray-300 text-center">Est. Value</th>
+            <th className="w-[40px] h-[40px] border-r border-gray-300 text-center"></th>
           </tr>
         </thead>
 
         <tbody>
           {tableData.map((row, rowIndex) => (
-            <tr
-              key={rowIndex}
-              className="hover:bg-gray-50 border-b border-gray-200"
-              style={{ height: '40px' }}
-            >
-              <td
-                className="border-r border-gray-200 w-[32px] h-[32px] text-center text-xs text-gray-400 font-medium align-middle"
-                style={{ lineHeight: '32px' }}
-              >
-                {rowIndex + 1}
+            <tr key={rowIndex} className="border-b border-gray-200 hover:bg-gray-50 h-[40px]">
+              <td className="border-r border-gray-200 text-center text-gray-400">{rowIndex + 1}</td>
+              <td className="border-r border-gray-200 text-center">{row.jobRequest}</td>
+              <td className="border-r border-gray-200 text-center">{row.submitted}</td>
+              <td className="border-r border-gray-200 text-center">
+                <span className={`px-2 py-0.5 rounded-full ${statusClasses[row.status] || ''}`}>
+                  {row.status}
+                </span>
               </td>
-
-              {Object.entries(row).map(([key, value], colIndex) => (
-                <td
-                  key={colIndex}
-                  onClick={() => handleCellClick(rowIndex, key)}
-                  className="border-r border-gray-200 w-[160px] h-[40px] text-center align-middle cursor-pointer text-xs"
-                >
-                  {editingCell.row === rowIndex && editingCell.col === key ? (
-                    <input
-                      type="text"
-                      value={value}
-                      onChange={(e) => handleInputChange(e, rowIndex, key)}
-                      onBlur={handleBlur}
-                      onKeyDown={handleKeyDown}
-                      autoFocus
-                      className="w-full h-full px-1 text-center border-none outline-none text-xs"
-                    />
-                  ) : key === 'status' ? (
-                    <span
-                      className={`px-2 py-0.5 rounded-full text-xs ${
-                        statusClasses[value] || 'bg-gray-100 text-gray-800'
-                      }`}
-                    >
-                      {value}
-                    </span>
-                  ) : key === 'priority' ? (
-                    <span className={`${priorityClasses[value] || ''}`}>{value}</span>
-                  ) : key === 'url' ? (
-                    <a
-                      href={`https://${value}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 underline text-xs"
-                    >
-                      {value}
-                    </a>
-                  ) : (
-                    <span className="text-xs">{value}</span>
-                  )}
-                </td>
-              ))}
+              <td className="border-r border-gray-200 text-center">{row.submitter}</td>
+              <td className="border-r border-gray-200 text-center">{row.url}</td>
+              <td className="border-r border-gray-200 text-center">{row.assigned}</td>
+              <td className="border-r border-gray-200 text-center">
+                <span className={priorityClasses[row.priority] || ''}>{row.priority}</span>
+              </td>
+              <td className="border-r border-gray-200 text-center">{row.dueDate}</td>
+              <td className="border-r border-gray-200 text-center">{row.value}</td>
+              <td className="border-r border-gray-200 text-center"></td>
             </tr>
           ))}
         </tbody>
