@@ -45,10 +45,12 @@ const SheetTable = () => {
               Extract
             </th>{' '}
             {/* Est. Value */}
-            <th className="w-[40px] border-r border-gray-300 bg-white text-center">
-              <FiPlus size={14} className="text-gray-400" />
+            <th className="w-[124px] border-r border-gray-300 bg-white text-center">
+              <div className="flex items-center justify-center h-full">
+                <FiPlus size={14} className="text-gray-400" />
+              </div>
             </th>{' '}
-            {/* Plus icon */}
+            {/* ✅ Plus icon only here */}
           </tr>
 
           {/* ✅ Second Row: Column Headers */}
@@ -63,7 +65,8 @@ const SheetTable = () => {
             <th className="w-[160px] h-[40px] border-r border-gray-300 text-center">Priority</th>
             <th className="w-[160px] h-[40px] border-r border-gray-300 text-center">Due Date</th>
             <th className="w-[160px] h-[40px] border-r border-gray-300 text-center">Est. Value</th>
-            <th className="w-[40px] h-[40px] border-r border-gray-300 text-center"></th>
+            <th className="w-[124px] h-[40px] border-r border-gray-300 text-center"></th>{' '}
+            {/* Empty header */}
           </tr>
         </thead>
 
@@ -86,7 +89,8 @@ const SheetTable = () => {
               </td>
               <td className="border-r border-gray-200 text-center">{row.dueDate}</td>
               <td className="border-r border-gray-200 text-center">{row.value}</td>
-              <td className="border-r border-gray-200 text-center"></td>
+              <td className="border-r border-gray-200 text-center w-[124px]"></td>{' '}
+              {/* ✅ Kept truly empty */}
             </tr>
           ))}
         </tbody>
