@@ -1,4 +1,16 @@
-const data = [
+export interface TableRow {
+  submitter: string;
+  status: 'In-process' | 'Need to start' | 'Complete' | 'Blocked';
+  submitted: string;
+  jobRequest: string;
+  url: string;
+  assigned: string;
+  priority: 'High' | 'Medium' | 'Low';
+  dueDate: string;
+  value: number;
+}
+
+const data: TableRow[] = [
   {
     submitter: 'Aisha Patel',
     status: 'In-process',
